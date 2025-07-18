@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Live Birth & Death Counter – Mobile Optimized</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<style>
+  :root{
+    --f-title: clamp(2.2rem, 6vw, 3.5rem);
+    --f-num:   clamp(2.8rem, 12vw, 6rem);
+    --gap:     clamp(1.2rem, 4vh, 2.4rem);
+    --font: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  }
+  html,body{margin:0;height:100%}
+  body{
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    font-family:var(--font);background:#fff;color:#000;text-align:center;
+    padding:env(safe-area-inset-top) env(safe-area-inset-right)
+            calc(env(safe-area-inset-bottom)+3rem) env(safe-area-inset-left);
+  }
+  h1{margin:0 0 .2em;font-size:var(--f-title)}
+  .n{font-size:var(--f-num);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+  .section{margin:var(--gap) 0}
+  footer{position:fixed;bottom:calc(env(safe-area-inset-bottom)+.5rem);
+         left:0;right:0;font-size:.75rem;color:#666;text-align:center}
+  @media(prefers-color-scheme:dark){
+    body{background:#000;color:#fff}
+    footer{color:#aaa}
+  }
+</style>
+</head>
+<body>
+  <div class="section">
+    <h1>Births</h1>
+    <div id="births" class="n">0</div>
+  </div>
+
+  <div class="section">
+    <h1>Deaths</h1>
+    <div id="deaths" class="n">0</div>
+  </div>
+
+  <footer>UN World Population Prospects 2024 estimate (2025 rates)</footer>
+
+<script>
+(function(){
+  "use strict";
+  const BPS = 4.19;  // births per second
+  const DPS = 2.00;  // deaths per second
+  const YEAR_START = Date.UTC(new Date().getUTCFullYear(),0,1);
+
+  const bEl = document.getElementById('births');
+  const dEl = document.getElementById('deaths');
+
+  function render(){
+    const elapsed = (Date.now() - YEAR_START) / 1000;
+    bEl.textContent = Math.floor(elapsed * BPS).toLocaleString('en-US');
+    dEl.textContent = Math.floor(elapsed * DPS).toLocaleString('en-US');
+  }
+
+  function tick(){
+    render();
+    if(!document.hidden){
+      requestAnimationFrame(tick);   // smooth while visible
+    }
+  }
+
+  document.addEventListener('visibilitychange', () => {
+    render();
+    if(!document.hidden){ requestAnimationFrame(tick); }
+  });
+
+  render();
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
