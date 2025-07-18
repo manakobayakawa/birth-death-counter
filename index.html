@@ -22,11 +22,8 @@
   h1{margin:0 0 .2em;font-size:var(--f-title)}
   .n{font-size:var(--f-num);font-variant-numeric:tabular-nums;letter-spacing:.04em}
   .section{margin:var(--gap) 0}
-  footer{position:fixed;bottom:calc(env(safe-area-inset-bottom)+.5rem);
-         left:0;right:0;font-size:.75rem;color:#666;text-align:center}
   @media(prefers-color-scheme:dark){
     body{background:#000;color:#fff}
-    footer{color:#aaa}
   }
 </style>
 </head>
@@ -40,8 +37,6 @@
     <h1>Deaths</h1>
     <div id="deaths" class="n">0</div>
   </div>
-
-  <footer>UN World Population Prospects 2024 estimate (2025 rates)</footer>
 
 <script>
 (function(){
@@ -62,7 +57,7 @@
   function tick(){
     render();
     if(!document.hidden){
-      requestAnimationFrame(tick);   // smooth while visible
+      requestAnimationFrame(tick);
     }
   }
 
